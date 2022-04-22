@@ -1,5 +1,7 @@
 package ws.toast.lit;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -15,21 +17,23 @@ public class LITGame extends Game {
 	public BitmapFont fantasyFont;
 
 	@Override
-	public void create () {
+	public void create() {
 		var screen = new MainTitleScreen(this);
+		var adelpheFontFileHandle = Gdx.files.internal("fonts/adelphe/regular.fnt");
 
 		batch = new SpriteBatch();
 		shapes = new ShapeRenderer();
-		readableFont = new BitmapFont();
+		readableFont = new BitmapFont(adelpheFontFileHandle);
 		fantasyFont = new BitmapFont();
 
 		shapes.setAutoShapeType(true);
+		readableFont.setColor(1.0F, 1.0F, 1.0F, 1.0F);
 
 		this.setScreen(screen);
 	}
 
 	@Override
-	public void dispose () {
+	public void dispose() {
 		batch.dispose();
 		shapes.dispose();
 		readableFont.dispose();
