@@ -7,6 +7,7 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import lombok.var;
 import ws.toast.lit.LITGame;
 import ws.toast.lit.logic.DictionaryEntry;
@@ -23,6 +24,7 @@ public class DictionaryScreen extends ScreenAdapter {
     };
     private static final float BOOK_WIDTH = 640;
     private static final float BOOK_HEIGHT = 480;
+    private static final int ENTRIES_PER_PAGE = 10;
     private final LITGame game;
     private Texture bookTexture;
     private int page = 0;
@@ -43,7 +45,9 @@ public class DictionaryScreen extends ScreenAdapter {
                 } break;
 
                 case Input.Keys.RIGHT: {
-                    parent.page++;
+                    if((parent.page + 1) * ENTRIES_PER_PAGE < DICTIONARY_ENTRIES.length) {
+                        parent.page++;
+                    }
                 } break;
 
                 default: break;
@@ -61,6 +65,21 @@ public class DictionaryScreen extends ScreenAdapter {
         game.batch.draw(bookTexture, 0, 0, BOOK_WIDTH, BOOK_HEIGHT);
     }
 
+    private void drawEntries() {
+        int start = page * ENTRIES_PER_PAGE;
+        int limit = Math.min(start + ENTRIES_PER_PAGE, DICTIONARY_ENTRIES.length);
+        int yOffset = 0;
+
+        game.readableFont.setColor(0.F, 0.F, 0.F, 1.F);
+
+        for (int i = start; i < limit; i++) {
+            DictionaryEntry entry = DICTIONARY_ENTRIES[i];
+            GlyphLayout layout = game.readableFont.draw(game.batch, entry.getForeignWord() + ": " + entry.getTranslation(), BOOK_WIDTH * 0.17F, (BOOK_HEIGHT * 0.94F) - yOffset, (BOOK_WIDTH / 2.1F), -1, true);
+
+            yOffset += layout.height + 6;
+        }
+    }
+
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0.15F, 0.15F, 0.15F, 1.0F);
@@ -68,6 +87,7 @@ public class DictionaryScreen extends ScreenAdapter {
 
         game.batch.begin();
         drawBook();
+        drawEntries();
         game.readableFont.draw(game.batch, ""+page, 100, 100, 1, 10, false);
         game.batch.end();
 
