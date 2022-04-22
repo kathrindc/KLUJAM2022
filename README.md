@@ -11,3 +11,14 @@ _Engine:_ **libGDX**
 ## Pitch
 
 Your summer vacation takes an unexpected turn, as you wake up in a holding cell. With no knowledge of the prior night and even less knowledge of the local language, you can barely piece together the fact that your interrogation will begin shortly. Armed with a pocket edition of a dictionary, you'll have to find a way to talk yourself out of this situation, but beware, the time you're able to study the dictionary isn't as long as you'd want it to be.
+
+## Credits
+
+Developers:
+
+* Florian Krainz - Programming and Design
+* Kathrin De Cecco - Programming
+
+Assets:
+
+* [Adelphe Typeface by Eugénie Bidaut](https://fontesk.com/adelphe-typeface/)
