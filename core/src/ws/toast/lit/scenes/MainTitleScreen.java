@@ -72,7 +72,7 @@ public class MainTitleScreen extends ScreenAdapter {
 
         switch (value) {
             case "Start Game": {
-                var screen = new ConversationScreen(game);
+                var screen = new ConversationScreen(game, 0);
 
                 game.setScreen(screen);
             } break;
