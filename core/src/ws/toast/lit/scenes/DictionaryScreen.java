@@ -85,5 +85,6 @@ public class DictionaryScreen extends ScreenAdapter {
     @Override
     public void hide() {
         Gdx.input.setInputProcessor(null);
+        bookTexture.dispose();
     }
 }
