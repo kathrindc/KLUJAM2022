@@ -58,7 +58,10 @@ public class ConversationScreen extends ScreenAdapter {
         var inputAdapter = new ConversationScreenInputAdapter(this);
 
         Gdx.input.setInputProcessor(inputAdapter);
+
         game.readableFont.setColor(1.F, 1.F, 1.F, 1.F);
+        game.jukebox.load("the-visitors", "sounds/audionautix/the-visitors/TheVisitors.mp3");
+        game.jukebox.play("the-visitors");
     }
 
     @Override
@@ -66,7 +69,11 @@ public class ConversationScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(0.15F, 0.15F, 0.15F, 1.0F);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        dialog.render(delta);
+        if (! game.fader.isFading()) {
+            dialog.render(delta);
+        }
+
+        game.fader.render(delta);
     }
 
     @Override
