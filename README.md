@@ -23,3 +23,5 @@ Assets:
 
 * [Adelphe Typeface by Eugénie Bidaut](https://fontesk.com/adelphe-typeface/)
 * [Title Screen Theme - "Quiet"](https://audionautix.com/Music/Quiet.mp3) by [Jason Shaw](https://audionautix.com/creative-commons-music)
+* [Dialog Screen Theme - "The Visitors"](https://audionautix.com/Music/TheVisitors.mp3) by [Jason Shaw](https://audionautix.com/creative-commons-music)
+* [Dictionary Screen Theme - "Atlantis"](https://audionautix.com/Music/Atlantis.mp3) by [Jason Shaw](https://audionautix.com/creative-commons-music)
