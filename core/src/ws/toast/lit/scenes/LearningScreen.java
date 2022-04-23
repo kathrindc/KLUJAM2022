@@ -195,8 +195,6 @@ public class LearningScreen extends ScreenAdapter {
         var xBaseline = (Gdx.graphics.getWidth() / 2.F) - ((NUM_COLS / 2.F) * (CARD_WIDTH + CARD_PADDING));
 
         score = 0;
-        resetting = true;
-        resetTimer = 1.25F;
 
         for (int i = 0; i < NUM_CARDS; ++i) {
             var index = (int) Math.floor(Math.random() * ENTRIES.length);
