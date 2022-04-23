@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.var;
 import ws.toast.lit.LITGame;
 import ws.toast.lit.scenes.CreditsScreen;
+import ws.toast.lit.scenes.DictionaryScreen;
 
 public class DialogTree {
 
@@ -53,10 +54,11 @@ public class DialogTree {
             new DialogTreeNode(UNKNOWN_SPEAKER, true, "OU IUR FAINELI AUAIK", 1), // 0
             new DialogTreeNode(NO_SPEAKER, false, "You slowly open your eyes.", 2),
             new DialogTreeNode(UNKNOWN_SPEAKER, false, "What do you say?", new DialogTreeNode.NodeChoice[]{
-                    new DialogTreeNode.NodeChoice("Where am I?", 1),
-                    new DialogTreeNode.NodeChoice("What?", 3)
+                    new DialogTreeNode.NodeChoice("Where am I?", 3),
+                    new DialogTreeNode.NodeChoice("What?", 4)
             }),
-            new DialogTreeNode(NO_SPEAKER, false, "The End", NEXT_SCENE_CHANGE_CREDITS)
+            new DialogTreeNode(NO_SPEAKER, false, "The End", NEXT_SCENE_CHANGE_CREDITS),
+            new DialogTreeNode(NO_SPEAKER, false, "To the Dictionary", NEXT_SCENE_CHANGE_DICTIONARY)
     };
 
     public LITGame game;
@@ -96,8 +98,10 @@ public class DialogTree {
             game.setScreen(screen);
         }
 
-        //if (current == NEXT_SCENE_CHANGE_DICTIONARY) {
-            // TODO: Add screen change once dictionary screen is implemented.
-        //}
+        if (current == NEXT_SCENE_CHANGE_DICTIONARY) {
+            var screen = new DictionaryScreen(game);
+
+            game.setScreen(screen);
+        }
     }
 }
