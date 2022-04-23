@@ -22,22 +22,18 @@ public class ConversationScreen extends ScreenAdapter {
 
         @Override
         public boolean keyDown(int keycode) {
-            if (parent.dialog.handleKey(keycode)) {
-                return true;
+            if (! parent.game.fader.isFading()) {
+                parent.dialog.handleKey(keycode);
             }
-
-            // TODO: Handle any screen specific keys here
 
             return true;
         }
 
         @Override
         public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-            if (button == 0 && parent.dialog.handleClick(screenX, screenY)) {
-                return true;
+            if (! parent.game.fader.isFading() && button == 0) {
+                parent.dialog.handleClick(screenX, screenY);
             }
-
-            // TODO: Handle other click events here
 
             return true;
         }
