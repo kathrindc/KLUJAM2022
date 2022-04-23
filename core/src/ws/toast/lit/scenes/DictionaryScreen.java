@@ -122,7 +122,7 @@ public class DictionaryScreen extends ScreenAdapter {
             timeSeconds -= Gdx.graphics.getDeltaTime();
 
             if (timeSeconds < 0.01F) {
-                var scene = new ConversationScreen(game, 0);
+                var scene = new ConversationScreen(game, 0, 5);
 
                 game.fader.fade(scene);
 
