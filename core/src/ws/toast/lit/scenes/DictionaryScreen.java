@@ -120,14 +120,14 @@ public class DictionaryScreen extends ScreenAdapter {
 
         if (! game.fader.isFading()) {
             timeSeconds -= Gdx.graphics.getDeltaTime();
-        }
 
-        if (timeSeconds < 0.01F) {
-            var scene = new ConversationScreen(game, 0);
+            if (timeSeconds < 0.01F) {
+                var scene = new ConversationScreen(game, 0);
 
-            game.setScreen(scene);
+                game.fader.fade(scene);
 
-            return;
+                return;
+            }
         }
 
         game.batch.begin();
@@ -146,6 +146,9 @@ public class DictionaryScreen extends ScreenAdapter {
         var inputAdapter = new DictionaryScreen.DictionaryScreenInputAdapter(this);
 
         Gdx.input.setInputProcessor(inputAdapter);
+
+        game.jukebox.load("atlantis", "sounds/audionautix/atlantis/Atlantis.mp3");
+        game.jukebox.play("atlantis");
 
         bookTexture = new Texture(Gdx.files.internal("sprites/book_open.png"));
     }
