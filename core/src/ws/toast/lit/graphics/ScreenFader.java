@@ -41,8 +41,6 @@ public class ScreenFader {
 
                 game.jukebox.fadeOut(delta);
 
-                System.out.println("out, " + opacity);
-
                 if (opacity >= 1.F) {
                     game.setScreen(nextScreen);
 
@@ -53,8 +51,6 @@ public class ScreenFader {
                 opacity = Math.max(opacity - delta, 0.01F);
 
                 game.jukebox.fadeIn(delta);
-
-                System.out.println("in, " + opacity);
 
                 if (opacity <= 0.01F) {
                     fading = false;
