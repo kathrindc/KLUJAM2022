@@ -15,36 +15,14 @@ import ws.toast.lit.logic.DictionaryEntry;
 import java.util.ArrayList;
 import java.util.List;
 
+import static ws.toast.lit.logic.DictionaryEntry.ENTRIES;
+
 public class DictionaryScreen extends ScreenAdapter {
 
-    private static final DictionaryEntry[] DICTIONARY_ENTRIES = {
-            new DictionaryEntry("Hello", "Hallo"),
-            new DictionaryEntry("Egg", "Ei"),
-            new DictionaryEntry("Owl", "Eule"),
-            new DictionaryEntry("Owl", "Eule"),
-            new DictionaryEntry("Owl", "Eule"),
-            new DictionaryEntry("Owl", "Eule"),
-            new DictionaryEntry("Owl", "Eule"),
-            new DictionaryEntry("Owl", "Eule"),
-            new DictionaryEntry("Owl", "Eule"),
-            new DictionaryEntry("Owl", "Eule"),
-            new DictionaryEntry("Owl", "Eule"),
-            new DictionaryEntry("Owl", "Eule"),
-            new DictionaryEntry("Owl", "Eule"),
-            new DictionaryEntry("Owl", "Eule"),
-            new DictionaryEntry("Owl", "Eule"),
-            new DictionaryEntry("Owl", "Eule"),
-            new DictionaryEntry("Owl", "Eule"),
-            new DictionaryEntry("Owl", "Eule"),
-            new DictionaryEntry("Owl", "Eule"),
-            new DictionaryEntry("Owl", "Eule"),
-            new DictionaryEntry("Owl", "Eule"),
-            new DictionaryEntry("Owl", "Eule")
-    };
     private static final float BOOK_WIDTH = 640;
     private static final float BOOK_HEIGHT = 480;
     private static final int ENTRIES_PER_PAGE = 10;
-    private static final float TIME_LIMIT = 60f;    //in seconds
+    private static final float TIME_LIMIT = 6f;    //in seconds
     private final LITGame game;
     private Texture bookTexture;
     private int page = 0;
@@ -66,7 +44,7 @@ public class DictionaryScreen extends ScreenAdapter {
                 } break;
 
                 case Input.Keys.RIGHT: {
-                    if((parent.page + 1) * ENTRIES_PER_PAGE < DICTIONARY_ENTRIES.length) {
+                    if((parent.page + 1) * ENTRIES_PER_PAGE < ENTRIES.length) {
                         parent.page += 2;
                     }
                 } break;
@@ -88,24 +66,24 @@ public class DictionaryScreen extends ScreenAdapter {
 
     private void drawEntries() {
         int start = page * ENTRIES_PER_PAGE;
-        int limit = Math.min(start + ENTRIES_PER_PAGE, DICTIONARY_ENTRIES.length);
+        int limit = Math.min(start + ENTRIES_PER_PAGE, ENTRIES.length);
         int yOffset = 0;
 
         game.readableFont.setColor(0.F, 0.F, 0.F, 1.F);
 
         for (int i = start; i < limit; i++) {
-            DictionaryEntry entry = DICTIONARY_ENTRIES[i];
+            DictionaryEntry entry = ENTRIES[i];
             GlyphLayout layout = game.readableFont.draw(game.batch, entry.getForeignWord() + ": " + entry.getTranslation(), BOOK_WIDTH * 0.17F, (BOOK_HEIGHT * 0.94F) - yOffset, (BOOK_WIDTH / 2.1F), -1, true);
 
             yOffset += layout.height + 6;
         }
 
         start = (page + 1) * ENTRIES_PER_PAGE;
-        limit = Math.min(start + ENTRIES_PER_PAGE, DICTIONARY_ENTRIES.length);
+        limit = Math.min(start + ENTRIES_PER_PAGE, ENTRIES.length);
         yOffset = 0;
 
         for (int i = start; i < limit; i++) {
-            DictionaryEntry entry = DICTIONARY_ENTRIES[i];
+            DictionaryEntry entry = ENTRIES[i];
             GlyphLayout layout = game.readableFont.draw(game.batch, entry.getForeignWord() + ": " + entry.getTranslation(), BOOK_WIDTH * 0.53F, (BOOK_HEIGHT * 0.94F) - yOffset, (BOOK_WIDTH / 2.1F), -1, true);
 
             yOffset += layout.height + 6;
@@ -122,7 +100,7 @@ public class DictionaryScreen extends ScreenAdapter {
             timeSeconds -= Gdx.graphics.getDeltaTime();
 
             if (timeSeconds < 0.01F) {
-                var scene = new ConversationScreen(game, 0, 5);
+                var scene = new LearningScreen(game);
 
                 game.fader.fade(scene);
 
