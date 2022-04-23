@@ -22,3 +22,4 @@ Developers:
 Assets:
 
 * [Adelphe Typeface by Eugénie Bidaut](https://fontesk.com/adelphe-typeface/)
+* [Title Screen Theme - "Quiet"](https://audionautix.com/Music/Quiet.mp3) by [Jason Shaw](https://audionautix.com/creative-commons-music)
