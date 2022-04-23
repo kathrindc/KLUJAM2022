@@ -64,7 +64,7 @@ public class LearningScreen extends ScreenAdapter {
     private final LITGame game;
     private final List<CardElement> cards;
     private int score;
-    private CardElement open = null;
+    private CardElement selected = null;
     private boolean resetting = false;
     private float resetTimer = 0.F;
     private float textTimer = 0.F;
@@ -80,14 +80,14 @@ public class LearningScreen extends ScreenAdapter {
         if (! resetting && ! target.open && ! target.matched) {
             target.open = true;
 
-            if (open == null) {
-                open = target;
-            } else if (open.entry == target.entry && open.readable != target.readable) {
+            if (selected == null) {
+                selected = target;
+            } else if (selected.entry == target.entry && selected.readable != target.readable) {
                 var complete = true;
 
-                open.matched = true;
+                selected.matched = true;
                 target.matched = true;
-                open = null;
+                selected = null;
                 score = score + 15;
                 textTimer = 1.5F;
                 showMatch = true;
@@ -119,7 +119,7 @@ public class LearningScreen extends ScreenAdapter {
 
     private void resetCards() {
         resetting = false;
-        open = null;
+        selected = null;
 
         for (var card : cards) {
             if (! card.matched) {
@@ -132,13 +132,15 @@ public class LearningScreen extends ScreenAdapter {
         game.shapes.begin(ShapeRenderer.ShapeType.Filled);
 
         for (var card : cards) {
-            if (card.open) {
-                game.shapes.setColor(0.8F, 0.8F, 0.8F, 1.0F);
-            } else {
-                game.shapes.setColor(0.05F, 0.05F, 0.05F, 1.0F);
-            }
+            if (! card.matched) {
+                if (card.open) {
+                    game.shapes.setColor(0.8F, 0.8F, 0.8F, 1.0F);
+                } else {
+                    game.shapes.setColor(0.7F, 0.7F, 0.7F, 1.0F);
+                }
 
-            game.shapes.rect(card.x, card.y, card.w, card.h);
+                game.shapes.rect(card.x, card.y, card.w, card.h);
+            }
         }
 
         game.shapes.end();
@@ -148,7 +150,7 @@ public class LearningScreen extends ScreenAdapter {
         game.fantasyFont.setColor(0.F, 0.F, 0.F, 1.F);
 
         for (var card : cards) {
-            if (card.open) {
+            if (! card.matched) {
                 var y = card.y + (card.h / 2.F);
 
                 if (card.readable) {
@@ -206,7 +208,6 @@ public class LearningScreen extends ScreenAdapter {
             a.h = CARD_HEIGHT;
             a.entry = entry;
             a.text = entry.getForeignWord();
-            a.open = true;
             a.readable = false;
 
             i += 1;
@@ -215,7 +216,6 @@ public class LearningScreen extends ScreenAdapter {
             b.h = CARD_HEIGHT;
             b.entry = entry;
             b.text = entry.getTranslation();
-            b.open = true;
             b.readable = true;
 
             cards.add(a);
