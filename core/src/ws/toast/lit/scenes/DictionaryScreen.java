@@ -48,7 +48,7 @@ public class DictionaryScreen extends ScreenAdapter {
     private final LITGame game;
     private Texture bookTexture;
     private int page = 0;
-    private float timeSeconds = TIME_LIMIT;
+    private float timeSeconds;
 
     private static class DictionaryScreenInputAdapter extends InputAdapter {
 
@@ -151,6 +151,7 @@ public class DictionaryScreen extends ScreenAdapter {
         game.jukebox.play("atlantis");
 
         bookTexture = new Texture(Gdx.files.internal("sprites/book_open.png"));
+        timeSeconds = TIME_LIMIT;
     }
 
     @Override
