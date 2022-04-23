@@ -95,13 +95,13 @@ public class DialogTree {
         if (current == NEXT_SCENE_CHANGE_CREDITS) {
             var screen = new CreditsScreen(game);
 
-            game.setScreen(screen);
+            game.fader.fade(screen);
         }
 
         if (current == NEXT_SCENE_CHANGE_DICTIONARY) {
             var screen = new DictionaryScreen(game);
 
-            game.setScreen(screen);
+            game.fader.fade(screen);
         }
     }
 }
