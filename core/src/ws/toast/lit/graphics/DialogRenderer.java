@@ -23,10 +23,12 @@ public class DialogRenderer {
         public float x, y;
         public float w, h;
         public String text;
+        public int choice;
     }
 
     private final LITGame game;
     private final DialogTree tree;
+    private final List<DialogButton> buttons;
     private String text;
     private String speaker;
     private int lastNode;
@@ -34,7 +36,7 @@ public class DialogRenderer {
     private int printedChars;
     private int charsPerTick;
     private boolean obfuscated;
-    private List<DialogButton> buttons;
+    public int score;
 
     public DialogRenderer(LITGame game, DialogTree tree) {
         this.game = game;
@@ -47,13 +49,17 @@ public class DialogRenderer {
     public void render(float delta) {
         var visibleText = getVisibleText(delta);
         var width = Gdx.graphics.getWidth();
-        var y = 100.F + ((buttons.size() / 2) * 50.F);
+        var y = 100.F + ((float) Math.ceil(buttons.size() / 2.F) * 60.F);
 
         game.shapes.begin();
 
-        for (var button : buttons) {
-            game.shapes.setColor(Color.WHITE);
-            game.shapes.rect(button.x, button.y, button.w, button.h);
+        for (int i = 0; i < buttons.size(); ++i) {
+            var button = buttons.get(i);
+
+            if (score >= tree.nodes[tree.current].choices[i].requiredScore) {
+                game.shapes.setColor(Color.WHITE);
+                game.shapes.rect(button.x, button.y, button.w, button.h);
+            }
         }
 
         game.shapes.end();
@@ -67,8 +73,12 @@ public class DialogRenderer {
             game.readableFont.draw(game.batch, visibleText, 0, y, width, -1, true);
         }
 
-        for (var button : buttons) {
-            game.readableFont.draw(game.batch, button.text, button.x, button.y + (button.h / 1.6F), button.w, 1, true);
+        for (int i = 0; i < buttons.size(); ++i) {
+            var button = buttons.get(i);
+
+            if (score >= tree.nodes[tree.current].choices[i].requiredScore) {
+                game.readableFont.draw(game.batch, button.text, button.x, button.y + (button.h / 1.6F), button.w, 1, true);
+            }
         }
 
         game.batch.end();
@@ -97,7 +107,7 @@ public class DialogRenderer {
             var t = button.y + button.h;
 
             if (screenX > button.x && screenX < r && y > button.y && y < t) {
-                tree.follow(i);
+                tree.follow(button.choice);
 
                 return true;
             }
@@ -129,18 +139,51 @@ public class DialogRenderer {
             buttons.clear();
 
             if (tree.nodes[tree.current].type == DialogTree.DialogTreeNode.NodeType.CHOICE) {
+                var screenW = Gdx.graphics.getWidth();
                 var width = 280.F;
                 var height = 40.F;
+                var visibleChoices = 0;
+                var lastVisible = 0;
 
                 for (int i = 0; i < tree.nodes[tree.current].choices.length; ++i) {
-                    var button = new DialogButton(
-                            (10.F * (i + 1)) + (width * i),
-                            50.F,
-                            width, height,
-                            tree.nodes[tree.current].choices[i].text
-                    );
+                    if (score >= tree.nodes[tree.current].choices[i].requiredScore) {
+                        visibleChoices += 1;
+                        lastVisible = i;
+                    }
+                }
 
-                    buttons.add(button);
+                if (visibleChoices > 0) {
+                    if (visibleChoices == 1) {
+                        var button = new DialogButton(
+                                (screenW / 2.F) - (width / 2.F),
+                                50.F,
+                                width, height,
+                                tree.nodes[tree.current].choices[lastVisible].text,
+                                lastVisible
+                        );
+
+                        buttons.add(button);
+                    } else {
+                        var rows = (float) Math.ceil(tree.nodes[tree.current].choices.length / 2.F);
+                        var rowHeight = height + 10.F;
+                        var yOffset = (rowHeight * rows) + 10.F;
+
+                        for (int i = 0; i < tree.nodes[tree.current].choices.length; ++i) {
+                            var button = new DialogButton(
+                                    (screenW / 2.F) + ((i % 2 == 0 ? (-10.F - width) : 10.F)),
+                                    yOffset,
+                                    width, height,
+                                    tree.nodes[tree.current].choices[i].text,
+                                    i
+                            );
+
+                            if ((i % 2) == 1) {
+                                yOffset -= rowHeight;
+                            }
+
+                            buttons.add(button);
+                        }
+                    }
                 }
             }
         } else if (done) {
