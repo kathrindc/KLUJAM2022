@@ -20,6 +20,25 @@ public class DictionaryScreen extends ScreenAdapter {
     private static final DictionaryEntry[] DICTIONARY_ENTRIES = {
             new DictionaryEntry("Hello", "Hallo"),
             new DictionaryEntry("Egg", "Ei"),
+            new DictionaryEntry("Owl", "Eule"),
+            new DictionaryEntry("Owl", "Eule"),
+            new DictionaryEntry("Owl", "Eule"),
+            new DictionaryEntry("Owl", "Eule"),
+            new DictionaryEntry("Owl", "Eule"),
+            new DictionaryEntry("Owl", "Eule"),
+            new DictionaryEntry("Owl", "Eule"),
+            new DictionaryEntry("Owl", "Eule"),
+            new DictionaryEntry("Owl", "Eule"),
+            new DictionaryEntry("Owl", "Eule"),
+            new DictionaryEntry("Owl", "Eule"),
+            new DictionaryEntry("Owl", "Eule"),
+            new DictionaryEntry("Owl", "Eule"),
+            new DictionaryEntry("Owl", "Eule"),
+            new DictionaryEntry("Owl", "Eule"),
+            new DictionaryEntry("Owl", "Eule"),
+            new DictionaryEntry("Owl", "Eule"),
+            new DictionaryEntry("Owl", "Eule"),
+            new DictionaryEntry("Owl", "Eule"),
             new DictionaryEntry("Owl", "Eule")
     };
     private static final float BOOK_WIDTH = 640;
@@ -40,13 +59,13 @@ public class DictionaryScreen extends ScreenAdapter {
             switch(keycode){
                 case Input.Keys.LEFT: {
                     if (parent.page > 0) {
-                        parent.page--;
+                        parent.page -= 2;
                     }
                 } break;
 
                 case Input.Keys.RIGHT: {
                     if((parent.page + 1) * ENTRIES_PER_PAGE < DICTIONARY_ENTRIES.length) {
-                        parent.page++;
+                        parent.page += 2;
                     }
                 } break;
 
@@ -78,6 +97,18 @@ public class DictionaryScreen extends ScreenAdapter {
 
             yOffset += layout.height + 6;
         }
+
+        start = (page + 1) * ENTRIES_PER_PAGE;
+        limit = Math.min(start + ENTRIES_PER_PAGE, DICTIONARY_ENTRIES.length);
+        yOffset = 0;
+
+        for (int i = start; i < limit; i++) {
+            DictionaryEntry entry = DICTIONARY_ENTRIES[i];
+            GlyphLayout layout = game.readableFont.draw(game.batch, entry.getForeignWord() + ": " + entry.getTranslation(), BOOK_WIDTH * 0.53F, (BOOK_HEIGHT * 0.94F) - yOffset, (BOOK_WIDTH / 2.1F), -1, true);
+
+            yOffset += layout.height + 6;
+        }
+
     }
 
     @Override
