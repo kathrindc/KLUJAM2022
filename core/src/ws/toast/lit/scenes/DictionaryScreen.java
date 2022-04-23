@@ -120,6 +120,14 @@ public class DictionaryScreen extends ScreenAdapter {
 
         timeSeconds -= Gdx.graphics.getDeltaTime();
 
+        if (timeSeconds < 0.01F) {
+            var scene = new ConversationScreen(game, 0);
+
+            game.setScreen(scene);
+
+            return;
+        }
+
         game.batch.begin();
         drawBook();
         drawEntries();
