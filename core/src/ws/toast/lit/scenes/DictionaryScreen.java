@@ -32,24 +32,29 @@ public class DictionaryScreen extends ScreenAdapter {
 
         private final DictionaryScreen parent;
 
-        DictionaryScreenInputAdapter(DictionaryScreen parent) { this.parent = parent; }
+        DictionaryScreenInputAdapter(DictionaryScreen parent) {
+            this.parent = parent;
+        }
 
         @Override
         public boolean keyDown(int keycode) {
-            switch(keycode){
+            switch (keycode) {
                 case Input.Keys.LEFT: {
                     if (parent.page > 0) {
                         parent.page -= 2;
                     }
-                } break;
+                }
+                break;
 
                 case Input.Keys.RIGHT: {
-                    if((parent.page + 1) * ENTRIES_PER_PAGE < ENTRIES.length) {
+                    if ((parent.page + 1) * ENTRIES_PER_PAGE < ENTRIES.length) {
                         parent.page += 2;
                     }
-                } break;
+                }
+                break;
 
-                default: break;
+                default:
+                    break;
             }
 
             return true;
@@ -96,7 +101,7 @@ public class DictionaryScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(0.15F, 0.15F, 0.15F, 1.0F);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        if (! game.fader.isFading()) {
+        if (!game.fader.isFading()) {
             timeSeconds -= Gdx.graphics.getDeltaTime();
 
             if (timeSeconds < 0.01F) {
@@ -111,9 +116,9 @@ public class DictionaryScreen extends ScreenAdapter {
         game.batch.begin();
         drawBook();
         drawEntries();
-        game.readableFont.draw(game.batch, ""+page, 100, 50, 1, 10, false);
-        game.readableFont.draw(game.batch, ""+(page + 1), BOOK_WIDTH - 100, 50, 1, 10, false);
-        game.readableFont.draw(game.batch, ""+(int)Math.ceil(timeSeconds), BOOK_WIDTH * 0.5F, 100, 1, 1, false);
+        game.readableFont.draw(game.batch, "" + (page + 1), 100, 50, 1, 10, false);
+        game.readableFont.draw(game.batch, "" + (page + 2), BOOK_WIDTH - 100, 50, 1, 10, false);
+        game.readableFont.draw(game.batch, "" + (int) Math.ceil(timeSeconds), BOOK_WIDTH * 0.5F, 100, 1, 1, false);
         game.batch.end();
 
         game.fader.render(delta);
