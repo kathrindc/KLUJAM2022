@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import lombok.var;
 import ws.toast.lit.LITGame;
@@ -50,6 +51,7 @@ public class MainTitleScreen extends ScreenAdapter {
     private final LITGame game;
     private int cursor = 0;
     private float cursorSpread = 0, cursorY = 0;
+    private Music titleTrack;
 
     public MainTitleScreen(LITGame game) {
         this.game = game;
@@ -129,6 +131,13 @@ public class MainTitleScreen extends ScreenAdapter {
     @Override
     public void show() {
         var inputAdapter = new MainTitleScreenInputAdapter(this);
+        var titleTrackFileHandle = Gdx.files.internal("sounds/audionautix/quiet/Quiet.mp3");
+
+        titleTrack = Gdx.audio.newMusic(titleTrackFileHandle);
+
+        titleTrack.setVolume(0.5F);
+        titleTrack.setLooping(true);
+        titleTrack.play();
 
         Gdx.input.setInputProcessor(inputAdapter);
     }
@@ -150,5 +159,8 @@ public class MainTitleScreen extends ScreenAdapter {
     @Override
     public void hide() {
         Gdx.input.setInputProcessor(null);
+
+        titleTrack.stop();
+        titleTrack.dispose();
     }
 }
