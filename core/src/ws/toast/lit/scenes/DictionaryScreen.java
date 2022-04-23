@@ -44,9 +44,11 @@ public class DictionaryScreen extends ScreenAdapter {
     private static final float BOOK_WIDTH = 640;
     private static final float BOOK_HEIGHT = 480;
     private static final int ENTRIES_PER_PAGE = 10;
+    private static final float TIME_LIMIT = 60f;    //in seconds
     private final LITGame game;
     private Texture bookTexture;
     private int page = 0;
+    private float timeSeconds = TIME_LIMIT;
 
     private static class DictionaryScreenInputAdapter extends InputAdapter {
 
@@ -116,10 +118,14 @@ public class DictionaryScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(0.15F, 0.15F, 0.15F, 1.0F);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        timeSeconds -= Gdx.graphics.getDeltaTime();
+
         game.batch.begin();
         drawBook();
         drawEntries();
-        game.readableFont.draw(game.batch, ""+page, 100, 100, 1, 10, false);
+        game.readableFont.draw(game.batch, ""+page, 100, 50, 1, 10, false);
+        game.readableFont.draw(game.batch, ""+(page + 1), BOOK_WIDTH - 100, 50, 1, 10, false);
+        game.readableFont.draw(game.batch, ""+(int)Math.ceil(timeSeconds), BOOK_WIDTH * 0.5F, 100, 1, 1, false);
         game.batch.end();
 
     }
