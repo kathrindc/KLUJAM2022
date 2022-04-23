@@ -58,6 +58,7 @@ public class ConversationScreen extends ScreenAdapter {
         var inputAdapter = new ConversationScreenInputAdapter(this);
 
         Gdx.input.setInputProcessor(inputAdapter);
+        game.readableFont.setColor(1.F, 1.F, 1.F, 1.F);
     }
 
     @Override
