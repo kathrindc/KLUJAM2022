@@ -18,6 +18,7 @@ public class LITGame extends Game {
 	public BitmapFont fantasyFont;
 	public ScreenFader fader;
 	public Jukebox jukebox;
+	public int score;
 
 	@Override
 	public void create() {

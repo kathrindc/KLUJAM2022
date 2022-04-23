@@ -78,7 +78,9 @@ public class MainTitleScreen extends ScreenAdapter {
 
         switch (value) {
             case "Start Game": {
-                var screen = new ConversationScreen(game, 0, 0);
+                var screen = new ConversationScreen(game, 0);
+
+                game.score = 0;
 
                 game.fader.fade(screen);
             } break;

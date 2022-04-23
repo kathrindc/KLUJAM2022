@@ -36,7 +36,6 @@ public class DialogRenderer {
     private int printedChars;
     private int charsPerTick;
     private boolean obfuscated;
-    public int score;
 
     public DialogRenderer(LITGame game, DialogTree tree) {
         this.game = game;
@@ -56,7 +55,7 @@ public class DialogRenderer {
         for (int i = 0; i < buttons.size(); ++i) {
             var button = buttons.get(i);
 
-            if (score >= tree.nodes[tree.current].choices[i].requiredScore) {
+            if (game.score >= tree.nodes[tree.current].choices[i].requiredScore) {
                 game.shapes.setColor(Color.WHITE);
                 game.shapes.rect(button.x, button.y, button.w, button.h);
             }
@@ -76,7 +75,7 @@ public class DialogRenderer {
         for (int i = 0; i < buttons.size(); ++i) {
             var button = buttons.get(i);
 
-            if (score >= tree.nodes[tree.current].choices[i].requiredScore) {
+            if (game.score >= tree.nodes[tree.current].choices[i].requiredScore) {
                 game.readableFont.draw(game.batch, button.text, button.x, button.y + (button.h / 1.6F), button.w, 1, true);
             }
         }
@@ -146,7 +145,7 @@ public class DialogRenderer {
                 var lastVisible = 0;
 
                 for (int i = 0; i < tree.nodes[tree.current].choices.length; ++i) {
-                    if (score >= tree.nodes[tree.current].choices[i].requiredScore) {
+                    if (game.score >= tree.nodes[tree.current].choices[i].requiredScore) {
                         visibleChoices += 1;
                         lastVisible = i;
                     }

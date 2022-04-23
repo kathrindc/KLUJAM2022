@@ -47,12 +47,10 @@ public class ConversationScreen extends ScreenAdapter {
     private final DialogTree tree;
     private final DialogRenderer dialog;
 
-    public ConversationScreen(LITGame game, int startFrom, int score) {
+    public ConversationScreen(LITGame game, int startFrom) {
         this.game = game;
         this.tree = new DialogTree(game, startFrom);
         this.dialog = new DialogRenderer(game, tree);
-
-        this.dialog.score = score;
     }
 
     @Override
