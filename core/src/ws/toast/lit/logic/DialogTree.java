@@ -1,5 +1,6 @@
 package ws.toast.lit.logic;
 
+import lombok.AllArgsConstructor;
 import lombok.var;
 import ws.toast.lit.LITGame;
 import ws.toast.lit.scenes.CreditsScreen;
@@ -12,6 +13,7 @@ public class DialogTree {
             TEXT_ONLY, CHOICE;
         }
 
+        @AllArgsConstructor
         public static class NodeChoice {
             public String text;
             public int link;
@@ -43,14 +45,18 @@ public class DialogTree {
         }
     }
 
-    private static final String UNKNOWN_SPEAKER = "??????";
-    private static final String NO_SPEAKER = "";
     public static final int NEXT_SCENE_CHANGE_DICTIONARY = 9999;
     public static final int NEXT_SCENE_CHANGE_CREDITS = 9998;
+    private static final String UNKNOWN_SPEAKER = "??????";
+    private static final String NO_SPEAKER = "";
     private static final DialogTreeNode[] MAIN_STORY = {
             new DialogTreeNode(UNKNOWN_SPEAKER, true, "OU IUR FAINELI AUAIK", 1), // 0
             new DialogTreeNode(NO_SPEAKER, false, "You slowly open your eyes.", 2),
-            new DialogTreeNode(NO_SPEAKER, false, "", NEXT_SCENE_CHANGE_CREDITS)
+            new DialogTreeNode(UNKNOWN_SPEAKER, false, "What do you say?", new DialogTreeNode.NodeChoice[]{
+                    new DialogTreeNode.NodeChoice("Where am I?", 1),
+                    new DialogTreeNode.NodeChoice("What?", 3)
+            }),
+            new DialogTreeNode(NO_SPEAKER, false, "The End", NEXT_SCENE_CHANGE_CREDITS)
     };
 
     public LITGame game;
