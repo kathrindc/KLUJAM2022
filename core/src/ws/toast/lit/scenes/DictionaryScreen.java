@@ -118,14 +118,16 @@ public class DictionaryScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(0.15F, 0.15F, 0.15F, 1.0F);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        timeSeconds -= Gdx.graphics.getDeltaTime();
+        if (! game.fader.isFading()) {
+            timeSeconds -= Gdx.graphics.getDeltaTime();
 
-        if (timeSeconds < 0.01F) {
-            var scene = new ConversationScreen(game, 0);
+            if (timeSeconds < 0.01F) {
+                var scene = new ConversationScreen(game, 0);
 
-            game.setScreen(scene);
+                game.fader.fade(scene);
 
-            return;
+                return;
+            }
         }
 
         game.batch.begin();
@@ -136,6 +138,7 @@ public class DictionaryScreen extends ScreenAdapter {
         game.readableFont.draw(game.batch, ""+(int)Math.ceil(timeSeconds), BOOK_WIDTH * 0.5F, 100, 1, 1, false);
         game.batch.end();
 
+        game.fader.render(delta);
     }
 
     @Override
@@ -143,6 +146,9 @@ public class DictionaryScreen extends ScreenAdapter {
         var inputAdapter = new DictionaryScreen.DictionaryScreenInputAdapter(this);
 
         Gdx.input.setInputProcessor(inputAdapter);
+
+        game.jukebox.load("atlantis", "sounds/audionautix/atlantis/Atlantis.mp3");
+        game.jukebox.play("atlantis");
 
         bookTexture = new Texture(Gdx.files.internal("sprites/book_open.png"));
     }

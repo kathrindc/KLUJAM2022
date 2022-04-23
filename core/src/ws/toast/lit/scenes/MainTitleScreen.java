@@ -4,9 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import lombok.var;
 import ws.toast.lit.LITGame;
+import ws.toast.lit.audio.Jukebox;
 
 public class MainTitleScreen extends ScreenAdapter {
 
@@ -27,6 +29,10 @@ public class MainTitleScreen extends ScreenAdapter {
 
         @Override
         public boolean keyDown(int keycode) {
+            if (parent.game.fader.isFading()) {
+                return true;
+            }
+
             switch (keycode) {
                 case Input.Keys.UP: {
                     parent.moveCursor(-1);
@@ -74,13 +80,13 @@ public class MainTitleScreen extends ScreenAdapter {
             case "Start Game": {
                 var screen = new ConversationScreen(game, 0);
 
-                game.setScreen(screen);
+                game.fader.fade(screen);
             } break;
 
             case "Credits": {
                 var screen = new CreditsScreen(game);
 
-                game.setScreen(screen);
+                game.fader.fade(screen);
             } break;
 
             case "Quit": {
@@ -122,6 +128,7 @@ public class MainTitleScreen extends ScreenAdapter {
     private void drawCursor() {
         float center = Gdx.graphics.getWidth() / 2.F;
 
+        game.shapes.setColor(1.F, 1.F, 1.F, 1.F);
         game.shapes.circle(center - cursorSpread, cursorY, CURSOR_SIZE);
         game.shapes.circle(center + cursorSpread, cursorY, CURSOR_SIZE);
     }
@@ -129,6 +136,10 @@ public class MainTitleScreen extends ScreenAdapter {
     @Override
     public void show() {
         var inputAdapter = new MainTitleScreenInputAdapter(this);
+
+        game.jukebox.load("quiet", "sounds/audionautix/quiet/Quiet.mp3");
+        game.jukebox.play("quiet");
+        game.jukebox.volume(Jukebox.TARGET_VOLUME);
 
         Gdx.input.setInputProcessor(inputAdapter);
     }
@@ -145,6 +156,8 @@ public class MainTitleScreen extends ScreenAdapter {
         game.shapes.begin();
         drawCursor();
         game.shapes.end();
+
+        game.fader.render(delta);
     }
 
     @Override
