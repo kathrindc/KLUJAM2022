@@ -22,6 +22,7 @@ Developers:
 Assets:
 
 * [Adelphe Typeface by Eugénie Bidaut](https://fontesk.com/adelphe-typeface/)
+* [XiDus Lang ombwha Font by LJ Design Studios](https://www.fontspace.com/xidus-lang-ombwha-font-f28680)
 * [Title Screen Theme - "Quiet"](https://audionautix.com/Music/Quiet.mp3) by [Jason Shaw](https://audionautix.com/creative-commons-music)
 * [Dialog Screen Theme - "The Visitors"](https://audionautix.com/Music/TheVisitors.mp3) by [Jason Shaw](https://audionautix.com/creative-commons-music)
 * [Dictionary Screen Theme - "Atlantis"](https://audionautix.com/Music/Atlantis.mp3) by [Jason Shaw](https://audionautix.com/creative-commons-music)

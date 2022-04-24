@@ -1,0 +1,3 @@
+El programa XiDus es un proyecto encabezado por LJ Design Studios, consta en la investigación de lenguajes o lenguas antiguas de nuestro mundo, realizando un estudio de la simbología y significado de los mismos para dar como resultado una fusión de símbolos los cuales hacen parte de estos abecedarios.
+Hay alrededor de 6 prototipos de este tipo de fuentes tipográficas los cuales tienen propósitos bastante destacables como el encriptado de información mediante claves usando los parámetros de los símbolos.
+Este proyecto es de alta contribución y cualquier persona con conocimientos de fundición, lectura, programación y/o decodificación es bienvenida a la participación 
