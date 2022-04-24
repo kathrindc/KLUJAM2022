@@ -23,6 +23,13 @@ public class DialogTree {
             public String text;
             public int link;
             public int requiredScore = 0;
+            public boolean requiredBonus = false;
+
+            public Choice(String text, int link, int requiredScore) {
+                this.text = text;
+                this.link = link;
+                this.requiredScore = requiredScore;
+            }
         }
 
         public NodeType type;
@@ -138,7 +145,7 @@ public class DialogTree {
             new Node(OFFICER, true, "You are accused of trespassing at the zoo and breaking into the enclosure of the endangered Gamebert species.", NEXT_SCENE_CHANGE_DICTIONARY, 22),
             // 22
             new Node(OFFICER, false, "You are accused of trespassing at the zoo and breaking into the enclosure of the endangered Gamebert species.", new Node.Choice[]{
-                    new Node.Choice("I'm not sure.", 18, 65),
+                    new Node.Choice("I'm not sure.", 17, 65),
                     new Node.Choice("Yes, I deny.", 23, 0),
             }),
             // 23
@@ -151,11 +158,11 @@ public class DialogTree {
             // 25
             new Node(OFFICER, false, "The witness seems to disagree.", 33),
             // 26
-            new Node(OFFICER, true, "You are accused of trespassing at the zoo and breaking into the enclosure of the endangered Gamebert species.", NEXT_SCENE_CHANGE_DICTIONARY, 22),
+            new Node(OFFICER, true, "You are accused of trespassing at the zoo and breaking into the enclosure of the endangered Gamebert species.", NEXT_SCENE_CHANGE_DICTIONARY, 27),
             // 27
             new Node(OFFICER, false, "You are accused of trespassing at the zoo and breaking into the enclosure of the endangered Gamebert species.", new Node.Choice[]{
                     new Node.Choice("Yes, I deny.", 23, 0),
-                    new Node.Choice("There's a zoo?", 27, 65),
+                    new Node.Choice("There's a zoo?", 28, 65),
             }),
             // 28
             new Node(OFFICER, false, "Please stay on topic.", 29),
@@ -164,7 +171,7 @@ public class DialogTree {
             // 30
             new Node(OFFICER, false, "We have an eye witness who claims to have seen you struggling to get over the gate.", new Node.Choice[]{
                     new Node.Choice("Impossible!", 25, 0),
-                    new Node.Choice("That could've been anyone.", 25, 60),
+                    new Node.Choice("That could've been anyone.", 31, 60),
             }),
             // 31
             new Node(OFFICER, false, "Perhaps, but do you even have an alibi?", new Node.Choice[]{
@@ -179,9 +186,9 @@ public class DialogTree {
             // 35
             new Node(NOBODY, false, "An older guard opens the door from the outside and gestures for you to follow him.", 36),
             // 36
-            new Node(NOBODY, false, "The guard walks you back to the precinct's holding cell.", NEXT_SCENE_CHANGE_INTERMISSION, 43),
+            new Node(NOBODY, false, "The guard walks you back to the precinct's holding cell.", NEXT_SCENE_CHANGE_INTERMISSION, 45),
             // 37
-            new Node(NOBODY, false, "An older guard escorts you back to the holding cell.", NEXT_SCENE_CHANGE_INTERMISSION, 44),
+            new Node(NOBODY, false, "An older guard escorts you back to the holding cell.", NEXT_SCENE_CHANGE_INTERMISSION, 43),
             // 38
             new Node(OFFICER, false, "Oh, ok.", 26),
             // 39
@@ -191,11 +198,11 @@ public class DialogTree {
             // 41
             new Node(NOBODY, false, "An older guard opens the door from the outside and gestures for you to follow him.", 42),
             // 42
-            new Node(NOBODY, false, "The guard walks you back to the precinct's holding cell.", NEXT_SCENE_CHANGE_INTERMISSION, 45),
+            new Node(NOBODY, false, "The guard walks you back to the precinct's holding cell.", NEXT_SCENE_CHANGE_INTERMISSION, 44),
             // 43
             new Node(NOBODY, false, "You are once more lead to the interrogation room.", 49),
             // 44
-            new Node(NOBODY, false, "You are once more lead to the interrogation room.", 58),
+            new Node(NOBODY, false, "You are once more lead to the interrogation room.", 59),
             // 45
             new Node(NOBODY, false, "You are once more lead to the interrogation room.", 46),
             // 46
@@ -237,7 +244,7 @@ public class DialogTree {
             // 61
             new Node(OFFICER, false, "So you're still insisting that you have nothing to do with this?", new Node.Choice[]{
                     new Node.Choice("Absolutely", 56, 35),
-                    new Node.Choice("Well, actually...", 62, 0),
+                    new Node.Choice("Well, actually...", 62, 0, true),
             }),
             // 62
             new Node(OFFICER, false, "What?", 63),
@@ -288,10 +295,16 @@ public class DialogTree {
             throw new RuntimeException("Cannot directly follow node with mismatched type");
         }
 
+        var cache = current;
+
         game.returnAt = nodes[current].returnAt;
         current = nodes[current].next;
 
         checkForSceneChange();
+
+        if (game.fader.isFading()) {
+            current = cache;
+        }
     }
 
     public void follow(int choice) {
