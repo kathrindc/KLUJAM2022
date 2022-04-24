@@ -21,6 +21,7 @@ public class LITGame extends Game {
 	public int score;
 	public int returnAt;
 	public int returnFromIntermission;
+	public int dictionaryOffset;
 	public boolean inIntermission = false;
 	public boolean bonusUnlocked = false;
 

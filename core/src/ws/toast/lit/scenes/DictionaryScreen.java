@@ -21,7 +21,7 @@ public class DictionaryScreen extends ScreenAdapter {
 
     private static final float BOOK_WIDTH = 640;
     private static final float BOOK_HEIGHT = 480;
-    private static final int ENTRIES_PER_PAGE = 10;
+    private static final int ENTRIES_PER_PAGE = 4;
     private static final float TIME_LIMIT = 30f;    //in seconds
     private final LITGame game;
     private Texture bookTexture;
@@ -39,19 +39,19 @@ public class DictionaryScreen extends ScreenAdapter {
         @Override
         public boolean keyDown(int keycode) {
             switch (keycode) {
-                case Input.Keys.LEFT: {
-                    if (parent.page > 0) {
-                        parent.page -= 2;
-                    }
-                }
-                break;
-
-                case Input.Keys.RIGHT: {
-                    if ((parent.page + 1) * ENTRIES_PER_PAGE < ENTRIES.length) {
-                        parent.page += 2;
-                    }
-                }
-                break;
+//                case Input.Keys.LEFT: {
+//                    if (parent.page > 0) {
+//                        parent.page -= 2;
+//                    }
+//                }
+//                break;
+//
+//                case Input.Keys.RIGHT: {
+//                    if ((parent.page + 1) * ENTRIES_PER_PAGE < ENTRIES.length) {
+//                        parent.page += 2;
+//                    }
+//                }
+//                break;
 
                 default:
                     break;
@@ -70,30 +70,34 @@ public class DictionaryScreen extends ScreenAdapter {
     }
 
     private void drawEntries() {
-        int start = page * ENTRIES_PER_PAGE;
+        int start = page * 6;
         int limit = Math.min(start + ENTRIES_PER_PAGE, ENTRIES.length);
         int yOffset = 0;
 
         game.readableFont.setColor(0.F, 0.F, 0.F, 1.F);
+        game.fantasyFont.setColor(0.F, 0.F, 0.F, 1.F);
 
         for (int i = start; i < limit; i++) {
             DictionaryEntry entry = ENTRIES[i];
-            GlyphLayout layout = game.readableFont.draw(game.batch, entry.getForeignWord() + ": " + entry.getTranslation(), BOOK_WIDTH * 0.17F, (BOOK_HEIGHT * 0.94F) - yOffset, (BOOK_WIDTH / 2.1F), -1, true);
+            GlyphLayout layout = game.fantasyFont.draw(game.batch, entry.getForeignWord(), BOOK_WIDTH * 0.16F, (BOOK_HEIGHT * 0.94F) - yOffset, (BOOK_WIDTH / 2.1F), -1, true);
 
             yOffset += layout.height + 6;
+            layout = game.readableFont.draw(game.batch, entry.getTranslation(), BOOK_WIDTH * 0.17F, (BOOK_HEIGHT * 0.94F) - yOffset, (BOOK_WIDTH / 2.1F), -1, true);
+            yOffset += layout.height + 20;
         }
 
-        start = (page + 1) * ENTRIES_PER_PAGE;
+        start = (page + 1) * 6;
         limit = Math.min(start + ENTRIES_PER_PAGE, ENTRIES.length);
         yOffset = 0;
 
         for (int i = start; i < limit; i++) {
             DictionaryEntry entry = ENTRIES[i];
-            GlyphLayout layout = game.readableFont.draw(game.batch, entry.getForeignWord() + ": " + entry.getTranslation(), BOOK_WIDTH * 0.53F, (BOOK_HEIGHT * 0.94F) - yOffset, (BOOK_WIDTH / 2.1F), -1, true);
+            GlyphLayout layout = game.fantasyFont.draw(game.batch, entry.getForeignWord(), BOOK_WIDTH * 0.53F, (BOOK_HEIGHT * 0.94F) - yOffset, (BOOK_WIDTH / 2.1F), -1, true);
 
             yOffset += layout.height + 6;
+            layout = game.readableFont.draw(game.batch, entry.getTranslation(), BOOK_WIDTH * 0.54F, (BOOK_HEIGHT * 0.94F) - yOffset, (BOOK_WIDTH / 2.1F), -1, true);
+            yOffset += layout.height + 20;
         }
-
     }
 
     @Override
@@ -135,11 +139,14 @@ public class DictionaryScreen extends ScreenAdapter {
 
         bookTexture = new Texture(Gdx.files.internal("sprites/book_open.png"));
         timeSeconds = TIME_LIMIT;
+        page = game.dictionaryOffset * 2;
     }
 
     @Override
     public void hide() {
         Gdx.input.setInputProcessor(null);
         bookTexture.dispose();
+        game.readableFont.setColor(1.F, 1.F, 1.F, 1.F);
+        game.fantasyFont.setColor(1.F, 1.F, 1.F, 1.F);
     }
 }
