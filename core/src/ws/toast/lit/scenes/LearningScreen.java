@@ -101,11 +101,21 @@ public class LearningScreen extends ScreenAdapter {
                 }
 
                 if (complete) {
-                    var screen = new ConversationScreen(game, game.returnAt);
+                    game.score = score;
 
-                    game.score += score;
+                    if (game.inIntermission) {
+                        var screen = new IntermissionScreen(game, game.returnFromIntermission + (score > 55 ? 1 : 0));
 
-                    game.fader.fade(screen);
+                        if (score > 55) {
+
+                        }
+
+                        game.fader.fade(screen);
+                    } else {
+                        var screen = new ConversationScreen(game, game.returnAt);
+
+                        game.fader.fade(screen);
+                    }
                 }
             } else {
                 resetTimer = 1.5F;
