@@ -101,7 +101,7 @@ public class LearningScreen extends ScreenAdapter {
                 }
 
                 if (complete) {
-                    var screen = new ConversationScreen(game, 0);
+                    var screen = new ConversationScreen(game, game.returnAt);
 
                     game.score += score;
 
@@ -176,11 +176,11 @@ public class LearningScreen extends ScreenAdapter {
         height -= game.readableFont.draw(game.batch, "Score: " + score, 0, height, width, 1, false).height + 4.F;
 
         if (showNoMatch) {
-            game.readableFont.setColor(0.5F, 0.1F, 0.1F, 1.F);
+            game.readableFont.setColor(0.6F, 0.1F, 0.1F, 1.F);
             game.readableFont.draw(game.batch, "No Match", 0, height, width, 1, false);
             game.readableFont.setColor(1.F, 1.F, 1.F, 1.F);
         } else if (showMatch) {
-            game.readableFont.setColor(0.1F, 0.5F, 0.1F, 1.F);
+            game.readableFont.setColor(0.1F, 0.6F, 0.1F, 1.F);
             game.readableFont.draw(game.batch, "Match!", 0, height, width, 1, false);
             game.readableFont.setColor(1.F, 1.F, 1.F, 1.F);
         }
