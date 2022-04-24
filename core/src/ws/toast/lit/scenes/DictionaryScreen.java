@@ -39,19 +39,19 @@ public class DictionaryScreen extends ScreenAdapter {
         @Override
         public boolean keyDown(int keycode) {
             switch (keycode) {
-                case Input.Keys.LEFT: {
-                    if (parent.page > 0) {
-                        parent.page -= 2;
-                    }
-                }
-                break;
-
-                case Input.Keys.RIGHT: {
-                    if ((parent.page + 1) * ENTRIES_PER_PAGE < ENTRIES.length) {
-                        parent.page += 2;
-                    }
-                }
-                break;
+//                case Input.Keys.LEFT: {
+//                    if (parent.page > 0) {
+//                        parent.page -= 2;
+//                    }
+//                }
+//                break;
+//
+//                case Input.Keys.RIGHT: {
+//                    if ((parent.page + 1) * ENTRIES_PER_PAGE < ENTRIES.length) {
+//                        parent.page += 2;
+//                    }
+//                }
+//                break;
 
                 default:
                     break;
@@ -70,7 +70,7 @@ public class DictionaryScreen extends ScreenAdapter {
     }
 
     private void drawEntries() {
-        int start = page * ENTRIES_PER_PAGE;
+        int start = page * 6;
         int limit = Math.min(start + ENTRIES_PER_PAGE, ENTRIES.length);
         int yOffset = 0;
 
@@ -86,7 +86,7 @@ public class DictionaryScreen extends ScreenAdapter {
             yOffset += layout.height + 20;
         }
 
-        start = (page + 1) * ENTRIES_PER_PAGE;
+        start = (page + 1) * 6;
         limit = Math.min(start + ENTRIES_PER_PAGE, ENTRIES.length);
         yOffset = 0;
 
@@ -139,6 +139,7 @@ public class DictionaryScreen extends ScreenAdapter {
 
         bookTexture = new Texture(Gdx.files.internal("sprites/book_open.png"));
         timeSeconds = TIME_LIMIT;
+        page = game.dictionaryOffset * 2;
     }
 
     @Override

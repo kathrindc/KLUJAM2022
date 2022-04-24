@@ -62,6 +62,8 @@ public class LearningScreen extends ScreenAdapter {
     private static final int CARD_HEIGHT = 68;
     private static final float CARD_PADDING = 2.F;
 
+    private static boolean offsetIncrement = false;
+
     private final LITGame game;
     private final List<CardElement> cards;
     private int score;
@@ -90,6 +92,16 @@ public class LearningScreen extends ScreenAdapter {
 
         if (complete) {
             game.score = score;
+
+            if (offsetIncrement) {
+                game.dictionaryOffset++;
+
+                if (game.dictionaryOffset >= ((ENTRIES.length * 2) / 8)) {
+                    game.dictionaryOffset = 0;
+                }
+            }
+
+            offsetIncrement = !offsetIncrement;
 
             if (game.inIntermission) {
                 var screen = new IntermissionScreen(game, game.returnAt + (score > 55 ? 1 : 0));
@@ -208,11 +220,12 @@ public class LearningScreen extends ScreenAdapter {
         var inputAdapter = new LearningScreenInputAdapter(this);
         var yBaseline = (Gdx.graphics.getHeight() / 2.F) - (((NUM_CARDS / NUM_COLS) / 2.F) * (CARD_HEIGHT + CARD_PADDING));
         var xBaseline = (Gdx.graphics.getWidth() / 2.F) - ((NUM_COLS / 2.F) * (CARD_WIDTH + CARD_PADDING));
+        int rndOffset = (int) (Math.random() * 2);
 
         score = 0;
 
         for (int i = 0; i < NUM_CARDS; ++i) {
-            var index = (int) Math.floor(Math.random() * ENTRIES.length);
+            var index = (game.dictionaryOffset * 8) + (i / 2) + rndOffset;
             var entry = ENTRIES[index];
             var a = new CardElement();
             var b = new CardElement();
