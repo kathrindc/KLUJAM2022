@@ -64,12 +64,13 @@ public class DialogRenderer {
         game.shapes.end();
         game.batch.begin();
 
-        game.readableFont.draw(game.batch, speaker, 0, y + 24, width, -1, true);
+        y = Gdx.graphics.getHeight() - 4.F;
+        y -= game.readableFont.draw(game.batch, speaker, 0, y, width, -1, true).height + 10.F;
 
         if (obfuscated) {
-            game.fantasyFont.draw(game.batch, visibleText, 0, y, width, -1, true);
+            game.fantasyFont.draw(game.batch, visibleText, 3.F, y, width - 6.F, -1, true);
         } else {
-            game.readableFont.draw(game.batch, visibleText, 0, y, width, -1, true);
+            game.readableFont.draw(game.batch, visibleText, 3.F, y, width - 6.F, -1, true);
         }
 
         for (int i = 0; i < buttons.size(); ++i) {
