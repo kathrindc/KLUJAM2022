@@ -145,7 +145,7 @@ public class DialogRenderer {
                 var lastVisible = 0;
 
                 for (int i = 0; i < tree.nodes[tree.current].choices.length; ++i) {
-                    if (game.score >= tree.nodes[tree.current].choices[i].requiredScore) {
+                    if (game.score >= tree.nodes[tree.current].choices[i].requiredScore && (! tree.nodes[tree.current].choices[i].requiredBonus || game.bonusUnlocked)) {
                         visibleChoices += 1;
                         lastVisible = i;
                     }
