@@ -1,12 +1,8 @@
 package ws.toast.lit.scenes;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
-import lombok.var;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import ws.toast.lit.LITGame;
 import ws.toast.lit.audio.Jukebox;
 
@@ -74,11 +70,11 @@ public class MainTitleScreen extends ScreenAdapter {
     }
 
     public void activateMenuEntry() {
-        var value = MENU_ENTRIES[cursor];
+        String value = MENU_ENTRIES[cursor];
 
         switch (value) {
             case "Start Game": {
-                var screen = new ConversationScreen(game, 0);
+                Screen screen = new ConversationScreen(game, 0);
 
                 game.score = 0;
 
@@ -86,7 +82,7 @@ public class MainTitleScreen extends ScreenAdapter {
             } break;
 
             case "Credits": {
-                var screen = new CreditsScreen(game);
+                Screen screen = new CreditsScreen(game);
 
                 game.fader.fade(screen);
             } break;
@@ -115,8 +111,8 @@ public class MainTitleScreen extends ScreenAdapter {
         float width = Gdx.graphics.getWidth();
 
         for (int i = 0; i < MENU_ENTRIES.length; ++i) {
-            var value = MENU_ENTRIES[i];
-            var layout = game.readableFont.draw(game.batch, value, 0, yOffset, width, 1, false);
+            String value = MENU_ENTRIES[i];
+            GlyphLayout layout = game.readableFont.draw(game.batch, value, 0, yOffset, width, 1, false);
 
             if (i == cursor) {
                 cursorSpread = (layout.width / 2.F) + 20;
@@ -137,7 +133,7 @@ public class MainTitleScreen extends ScreenAdapter {
 
     @Override
     public void show() {
-        var inputAdapter = new MainTitleScreenInputAdapter(this);
+        InputAdapter inputAdapter = new MainTitleScreenInputAdapter(this);
 
         game.jukebox.load("quiet", "sounds/audionautix/quiet/Quiet.mp3");
         game.jukebox.play("quiet");

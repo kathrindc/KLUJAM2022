@@ -1,13 +1,9 @@
 package ws.toast.lit.scenes;
 
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import lombok.var;
 import ws.toast.lit.LITGame;
 import ws.toast.lit.logic.DictionaryEntry;
 
@@ -40,11 +36,11 @@ public class LearningScreen extends ScreenAdapter {
         @Override
         public boolean touchDown(int screenX, int screenY, int pointer, int button) {
             if (! parent.game.fader.isFading()) {
-                var screenHeight = Gdx.graphics.getHeight();
-                var y = screenHeight - screenY;
+                float screenHeight = Gdx.graphics.getHeight();
+                float y = screenHeight - screenY;
 
                 if (button == 0) {
-                    for (var card : parent.cards) {
+                    for (CardElement card : parent.cards) {
                         if (screenX > card.x && screenX < (card.x + card.w) && y > card.y && y < (card.y + card.h)) {
                             parent.openCard(card);
                         }
@@ -80,9 +76,9 @@ public class LearningScreen extends ScreenAdapter {
     }
 
     private void checkCompletion() {
-        var complete = true;
+        boolean complete = true;
 
-        for (var card : cards) {
+        for (CardElement card : cards) {
             if (! card.matched) {
                 complete = false;
 
@@ -104,7 +100,7 @@ public class LearningScreen extends ScreenAdapter {
             offsetIncrement = !offsetIncrement;
 
             if (game.inIntermission) {
-                var screen = new IntermissionScreen(game, game.returnAt + (score > 55 ? 1 : 0));
+                Screen screen = new IntermissionScreen(game, game.returnAt + (score > 55 ? 1 : 0));
 
                 if (score > 55) {
                     game.bonusUnlocked = true;
@@ -112,7 +108,7 @@ public class LearningScreen extends ScreenAdapter {
 
                 game.fader.fade(screen);
             } else {
-                var screen = new ConversationScreen(game, game.returnAt);
+                Screen screen = new ConversationScreen(game, game.returnAt);
 
                 game.fader.fade(screen);
             }
@@ -148,7 +144,7 @@ public class LearningScreen extends ScreenAdapter {
         resetting = false;
         selected = null;
 
-        for (var card : cards) {
+        for (CardElement card : cards) {
             if (! card.matched) {
                 card.open = false;
             }
@@ -158,7 +154,7 @@ public class LearningScreen extends ScreenAdapter {
     private void drawCards() {
         game.shapes.begin(ShapeRenderer.ShapeType.Filled);
 
-        for (var card : cards) {
+        for (CardElement card : cards) {
             if (! card.matched) {
                 if (card.open) {
                     game.shapes.setColor(0.8F, 0.8F, 0.8F, 1.0F);
@@ -176,9 +172,9 @@ public class LearningScreen extends ScreenAdapter {
         game.readableFont.setColor(0.F, 0.F, 0.F, 1.F);
         game.fantasyFont.setColor(0.F, 0.F, 0.F, 1.F);
 
-        for (var card : cards) {
+        for (CardElement card : cards) {
             if (! card.matched) {
-                var y = card.y + (card.h / 2.F);
+                float y = card.y + (card.h / 2.F);
 
                 if (card.readable) {
                     game.readableFont.draw(game.batch, card.text, card.x, y, card.w, 1, true);
@@ -195,8 +191,8 @@ public class LearningScreen extends ScreenAdapter {
     }
 
     public void drawScoreAndInfo() {
-        var height = Gdx.graphics.getHeight() - 12.F;
-        var width = Gdx.graphics.getWidth();
+        float height = Gdx.graphics.getHeight() - 12.F;
+        float width = Gdx.graphics.getWidth();
 
         game.batch.begin();
 
@@ -217,18 +213,18 @@ public class LearningScreen extends ScreenAdapter {
 
     @Override
     public void show() {
-        var inputAdapter = new LearningScreenInputAdapter(this);
-        var yBaseline = (Gdx.graphics.getHeight() / 2.F) - (((NUM_CARDS / NUM_COLS) / 2.F) * (CARD_HEIGHT + CARD_PADDING));
-        var xBaseline = (Gdx.graphics.getWidth() / 2.F) - ((NUM_COLS / 2.F) * (CARD_WIDTH + CARD_PADDING));
+        InputAdapter inputAdapter = new LearningScreenInputAdapter(this);
+        float yBaseline = (Gdx.graphics.getHeight() / 2.F) - (((NUM_CARDS / (float) NUM_COLS) / 2.F) * (CARD_HEIGHT + CARD_PADDING));
+        float xBaseline = (Gdx.graphics.getWidth() / 2.F) - ((NUM_COLS / 2.F) * (CARD_WIDTH + CARD_PADDING));
         int rndOffset = (int) (Math.random() * 2);
 
         score = 0;
 
         for (int i = 0; i < NUM_CARDS; ++i) {
-            var index = (game.dictionaryOffset * 8) + (i / 2) + rndOffset;
-            var entry = ENTRIES[index];
-            var a = new CardElement();
-            var b = new CardElement();
+            int index = (game.dictionaryOffset * 8) + (i / 2) + rndOffset;
+            DictionaryEntry entry = ENTRIES[index];
+            CardElement a = new CardElement();
+            CardElement b = new CardElement();
 
             a.w = CARD_WIDTH;
             a.h = CARD_HEIGHT;
@@ -251,7 +247,7 @@ public class LearningScreen extends ScreenAdapter {
         Collections.shuffle(cards);
 
         for (int i = 0; i < cards.size(); ++i) {
-            var card = cards.get(i);
+            CardElement card = cards.get(i);
 
             card.x = xBaseline + ((i % NUM_COLS) * (CARD_WIDTH + CARD_PADDING));
             card.y = yBaseline + (((int) (i / (float) NUM_COLS)) * (CARD_HEIGHT + CARD_PADDING));

@@ -1,8 +1,8 @@
 package ws.toast.lit.logic;
 
+import com.badlogic.gdx.Screen;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import lombok.var;
 import ws.toast.lit.LITGame;
 import ws.toast.lit.scenes.*;
 
@@ -14,8 +14,6 @@ public class DialogTree {
             TEXT_ONLY, CHOICE;
         }
 
-        @RequiredArgsConstructor
-        @AllArgsConstructor
         public static class Choice {
             public String text;
             public int link;
@@ -26,6 +24,13 @@ public class DialogTree {
                 this.text = text;
                 this.link = link;
                 this.requiredScore = requiredScore;
+            }
+
+            public Choice(String text, int link, int requiredScore, boolean requiredBonus) {
+                this.text = text;
+                this.link = link;
+                this.requiredScore = requiredScore;
+                this.requiredBonus = requiredBonus;
             }
         }
 
@@ -292,7 +297,7 @@ public class DialogTree {
             throw new RuntimeException("Cannot directly follow node with mismatched type");
         }
 
-        var cache = current;
+        int cache = current;
 
         game.returnAt = nodes[current].returnAt;
         current = nodes[current].next;
@@ -317,19 +322,19 @@ public class DialogTree {
 
     private void checkForSceneChange() {
         if (current == NEXT_SCENE_CHANGE_CREDITS) {
-            var screen = new CreditsScreen(game);
+            Screen screen = new CreditsScreen(game);
 
             game.fader.fade(screen);
         }
 
         if (current == NEXT_SCENE_CHANGE_DICTIONARY) {
-            var screen = new DictionaryScreen(game);
+            Screen screen = new DictionaryScreen(game);
 
             game.fader.fade(screen);
         }
 
         if (current == NEXT_SCENE_CHANGE_INTERMISSION) {
-            var screen = new IntermissionScreen(game, 0);
+            Screen screen = new IntermissionScreen(game, 0);
 
             game.returnFromIntermission = game.returnAt;
             game.inIntermission = true;
@@ -338,7 +343,7 @@ public class DialogTree {
         }
 
         if (current == NEXT_SCENE_CHANGE_CONVERSATION) {
-            var screen = new ConversationScreen(game, game.returnFromIntermission);
+            Screen screen = new ConversationScreen(game, game.returnFromIntermission);
 
             game.inIntermission = false;
 
@@ -346,19 +351,19 @@ public class DialogTree {
         }
 
         if (current == NEXT_SCENE_CHANGE_JAIL_END) {
-            var screen = new EndingScreen(game, 0);
+            Screen screen = new EndingScreen(game, 0);
 
             game.fader.fade(screen);
         }
 
         if (current == NEXT_SCENE_CHANGE_FINE_END) {
-            var screen = new EndingScreen(game, 1);
+            Screen screen = new EndingScreen(game, 1);
 
             game.fader.fade(screen);
         }
 
         if (current == NEXT_SCENE_CHANGE_FREE_END) {
-            var screen = new EndingScreen(game, 2);
+            Screen screen = new EndingScreen(game, 2);
 
             game.fader.fade(screen);
         }

@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import lombok.var;
 import ws.toast.lit.LITGame;
 
 public class ScreenFader {
@@ -25,8 +24,8 @@ public class ScreenFader {
 
     public void render(float delta) {
         if (fading) {
-            var width = Gdx.graphics.getWidth();
-            var height = Gdx.graphics.getHeight();
+            float width = Gdx.graphics.getWidth();
+            float height = Gdx.graphics.getHeight();
 
             Gdx.gl.glEnable(GL20.GL_BLEND);
             Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);

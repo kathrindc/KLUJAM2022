@@ -1,19 +1,12 @@
 package ws.toast.lit.scenes;
 
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import lombok.var;
 import ws.toast.lit.LITGame;
 import ws.toast.lit.logic.DictionaryEntry;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static ws.toast.lit.logic.DictionaryEntry.ENTRIES;
 
@@ -109,7 +102,7 @@ public class DictionaryScreen extends ScreenAdapter {
             timeSeconds -= Gdx.graphics.getDeltaTime();
 
             if (timeSeconds < 0.01F) {
-                var scene = new LearningScreen(game);
+                Screen scene = new LearningScreen(game);
 
                 game.fader.fade(scene);
 
@@ -130,7 +123,7 @@ public class DictionaryScreen extends ScreenAdapter {
 
     @Override
     public void show() {
-        var inputAdapter = new DictionaryScreen.DictionaryScreenInputAdapter(this);
+        DictionaryScreen.DictionaryScreenInputAdapter inputAdapter = new DictionaryScreen.DictionaryScreenInputAdapter(this);
 
         Gdx.input.setInputProcessor(inputAdapter);
 

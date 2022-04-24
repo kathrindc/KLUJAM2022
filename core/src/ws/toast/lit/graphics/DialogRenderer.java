@@ -5,7 +5,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import lombok.var;
 import ws.toast.lit.LITGame;
 import ws.toast.lit.logic.DialogTree;
 
@@ -16,14 +15,21 @@ public class DialogRenderer {
 
     private static final int CHARACTER_SPEED = 2; // per 16 millis
 
-    @AllArgsConstructor
-    @NoArgsConstructor
     public static class DialogButton {
 
         public float x, y;
         public float w, h;
         public String text;
         public int choice;
+
+        public DialogButton() {}
+
+        public DialogButton(float x, float y, float w, float h, String text, int choice) {
+            this.x = x; this.y = y;
+            this.w = w; this.h = h;
+            this.text = text;
+            this.choice = choice;
+        }
     }
 
     private final LITGame game;
@@ -46,14 +52,14 @@ public class DialogRenderer {
     }
 
     public void render(float delta) {
-        var visibleText = getVisibleText(delta);
-        var width = Gdx.graphics.getWidth();
-        var y = 100.F + ((float) Math.ceil(buttons.size() / 2.F) * 60.F);
+        String visibleText = getVisibleText(delta);
+        float width = Gdx.graphics.getWidth();
+        float y = 100.F + ((float) Math.ceil(buttons.size() / 2.F) * 60.F);
 
         game.shapes.begin();
 
         for (int i = 0; i < buttons.size(); ++i) {
-            var button = buttons.get(i);
+            DialogButton button = buttons.get(i);
 
             if (game.score >= tree.nodes[tree.current].choices[i].requiredScore) {
                 game.shapes.setColor(Color.WHITE);
@@ -74,7 +80,7 @@ public class DialogRenderer {
         }
 
         for (int i = 0; i < buttons.size(); ++i) {
-            var button = buttons.get(i);
+            DialogButton button = buttons.get(i);
 
             if (game.score >= tree.nodes[tree.current].choices[i].requiredScore) {
                 game.readableFont.draw(game.batch, button.text, button.x, button.y + (button.h / 1.6F), button.w, 1, true);
@@ -99,12 +105,12 @@ public class DialogRenderer {
             return true;
         }
 
-        var y = Gdx.graphics.getHeight() - screenY;
+        float y = Gdx.graphics.getHeight() - screenY;
 
         for (int i = 0; i < buttons.size(); ++i) {
-            var button = buttons.get(i);
-            var r = button.x + button.w;
-            var t = button.y + button.h;
+            DialogButton button = buttons.get(i);
+            float r = button.x + button.w;
+            float t = button.y + button.h;
 
             if (screenX > button.x && screenX < r && y > button.y && y < t) {
                 tree.follow(button.choice);
@@ -139,11 +145,11 @@ public class DialogRenderer {
             buttons.clear();
 
             if (tree.nodes[tree.current].type == DialogTree.Node.NodeType.CHOICE) {
-                var screenW = Gdx.graphics.getWidth();
-                var width = 280.F;
-                var height = 40.F;
-                var visibleChoices = 0;
-                var lastVisible = 0;
+                float screenW = Gdx.graphics.getWidth();
+                float width = 280.F;
+                float height = 40.F;
+                int visibleChoices = 0;
+                int lastVisible = 0;
 
                 for (int i = 0; i < tree.nodes[tree.current].choices.length; ++i) {
                     if (game.score >= tree.nodes[tree.current].choices[i].requiredScore && (! tree.nodes[tree.current].choices[i].requiredBonus || game.bonusUnlocked)) {
@@ -154,7 +160,7 @@ public class DialogRenderer {
 
                 if (visibleChoices > 0) {
                     if (visibleChoices == 1) {
-                        var button = new DialogButton(
+                        DialogButton button = new DialogButton(
                                 (screenW / 2.F) - (width / 2.F),
                                 50.F,
                                 width, height,
@@ -164,12 +170,12 @@ public class DialogRenderer {
 
                         buttons.add(button);
                     } else {
-                        var rows = (float) Math.ceil(tree.nodes[tree.current].choices.length / 2.F);
-                        var rowHeight = height + 10.F;
-                        var yOffset = (rowHeight * rows) + 10.F;
+                        float rows = (float) Math.ceil(tree.nodes[tree.current].choices.length / 2.F);
+                        float rowHeight = height + 10.F;
+                        float yOffset = (rowHeight * rows) + 10.F;
 
                         for (int i = 0; i < tree.nodes[tree.current].choices.length; ++i) {
-                            var button = new DialogButton(
+                            DialogButton button = new DialogButton(
                                     (screenW / 2.F) + ((i % 2 == 0 ? (-10.F - width) : 10.F)),
                                     yOffset,
                                     width, height,

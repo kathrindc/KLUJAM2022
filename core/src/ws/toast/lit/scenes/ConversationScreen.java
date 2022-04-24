@@ -1,11 +1,9 @@
 package ws.toast.lit.scenes;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
-import lombok.var;
 import ws.toast.lit.LITGame;
 import ws.toast.lit.graphics.DialogRenderer;
 import ws.toast.lit.logic.DialogTree;
@@ -43,7 +41,7 @@ public class ConversationScreen extends ScreenAdapter {
     private final DialogRenderer dialog;
 
     public ConversationScreen(LITGame game, int startFrom) {
-        var tree = new DialogTree(game, startFrom);
+        DialogTree tree = new DialogTree(game, startFrom);
 
         this.game = game;
         this.dialog = new DialogRenderer(game, tree);
@@ -51,7 +49,7 @@ public class ConversationScreen extends ScreenAdapter {
 
     @Override
     public void show() {
-        var inputAdapter = new ConversationScreenInputAdapter(this);
+        ConversationScreenInputAdapter inputAdapter = new ConversationScreenInputAdapter(this);
 
         Gdx.input.setInputProcessor(inputAdapter);
 
