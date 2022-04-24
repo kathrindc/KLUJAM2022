@@ -1,7 +1,6 @@
 package ws.toast.lit.scenes;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
@@ -10,13 +9,13 @@ import ws.toast.lit.LITGame;
 import ws.toast.lit.graphics.DialogRenderer;
 import ws.toast.lit.logic.DialogTree;
 
-public class ConversationScreen extends ScreenAdapter {
+public class IntermissionScreen extends ScreenAdapter {
 
-    private static class ConversationScreenInputAdapter extends InputAdapter {
+    private static class IntermissionScreenInputAdapter extends InputAdapter {
 
-        private final ConversationScreen parent;
+        private final IntermissionScreen parent;
 
-        ConversationScreenInputAdapter(ConversationScreen parent) {
+        IntermissionScreenInputAdapter(IntermissionScreen parent) {
             this.parent = parent;
         }
 
@@ -42,8 +41,8 @@ public class ConversationScreen extends ScreenAdapter {
     private final LITGame game;
     private final DialogRenderer dialog;
 
-    public ConversationScreen(LITGame game, int startFrom) {
-        var tree = new DialogTree(game, startFrom);
+    public IntermissionScreen(LITGame game, int startFrom) {
+        var tree = new DialogTree(game, startFrom, true);
 
         this.game = game;
         this.dialog = new DialogRenderer(game, tree);
@@ -51,13 +50,11 @@ public class ConversationScreen extends ScreenAdapter {
 
     @Override
     public void show() {
-        var inputAdapter = new ConversationScreenInputAdapter(this);
+        var inputAdapter = new IntermissionScreenInputAdapter(this);
 
         Gdx.input.setInputProcessor(inputAdapter);
 
         game.readableFont.setColor(1.F, 1.F, 1.F, 1.F);
-        game.jukebox.load("the-visitors", "sounds/audionautix/the-visitors/TheVisitors.mp3");
-        game.jukebox.play("the-visitors");
     }
 
     @Override

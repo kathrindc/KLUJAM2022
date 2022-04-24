@@ -2,6 +2,7 @@ package ws.toast.lit.scenes;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
@@ -76,6 +77,36 @@ public class LearningScreen extends ScreenAdapter {
         this.cards = new ArrayList<>();
     }
 
+    private void checkCompletion() {
+        var complete = true;
+
+        for (var card : cards) {
+            if (! card.matched) {
+                complete = false;
+
+                break;
+            }
+        }
+
+        if (complete) {
+            game.score = score;
+
+            if (game.inIntermission) {
+                var screen = new IntermissionScreen(game, game.returnAt + (score > 55 ? 1 : 0));
+
+                if (score > 55) {
+                    game.bonusUnlocked = true;
+                }
+
+                game.fader.fade(screen);
+            } else {
+                var screen = new ConversationScreen(game, game.returnAt);
+
+                game.fader.fade(screen);
+            }
+        }
+    }
+
     private void openCard(CardElement target) {
         if (! resetting && ! target.open && ! target.matched) {
             target.open = true;
@@ -83,8 +114,6 @@ public class LearningScreen extends ScreenAdapter {
             if (selected == null) {
                 selected = target;
             } else if (selected.entry == target.entry && selected.readable != target.readable) {
-                var complete = true;
-
                 selected.matched = true;
                 target.matched = true;
                 selected = null;
@@ -92,21 +121,7 @@ public class LearningScreen extends ScreenAdapter {
                 textTimer = 1.5F;
                 showMatch = true;
 
-                for (var card : cards) {
-                    if (! card.matched) {
-                        complete = false;
-
-                        break;
-                    }
-                }
-
-                if (complete) {
-                    var screen = new ConversationScreen(game, 0);
-
-                    game.score += score;
-
-                    game.fader.fade(screen);
-                }
+                checkCompletion();
             } else {
                 resetTimer = 1.5F;
                 resetting = true;
@@ -176,11 +191,11 @@ public class LearningScreen extends ScreenAdapter {
         height -= game.readableFont.draw(game.batch, "Score: " + score, 0, height, width, 1, false).height + 4.F;
 
         if (showNoMatch) {
-            game.readableFont.setColor(0.5F, 0.1F, 0.1F, 1.F);
+            game.readableFont.setColor(0.6F, 0.1F, 0.1F, 1.F);
             game.readableFont.draw(game.batch, "No Match", 0, height, width, 1, false);
             game.readableFont.setColor(1.F, 1.F, 1.F, 1.F);
         } else if (showMatch) {
-            game.readableFont.setColor(0.1F, 0.5F, 0.1F, 1.F);
+            game.readableFont.setColor(0.1F, 0.6F, 0.1F, 1.F);
             game.readableFont.draw(game.batch, "Match!", 0, height, width, 1, false);
             game.readableFont.setColor(1.F, 1.F, 1.F, 1.F);
         }

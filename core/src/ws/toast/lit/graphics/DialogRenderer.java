@@ -92,7 +92,7 @@ public class DialogRenderer {
     }
 
     public boolean handleClick(int screenX, int screenY) {
-        if (tree.nodes[tree.current].type == DialogTree.DialogTreeNode.NodeType.TEXT_ONLY) {
+        if (tree.nodes[tree.current].type == DialogTree.Node.NodeType.TEXT_ONLY) {
             skip();
 
             return true;
@@ -116,7 +116,7 @@ public class DialogRenderer {
     }
 
     public boolean handleKey(int keycode) {
-        if (keycode == Input.Keys.ENTER && tree.nodes[tree.current].type == DialogTree.DialogTreeNode.NodeType.TEXT_ONLY) {
+        if (keycode == Input.Keys.ENTER && tree.nodes[tree.current].type == DialogTree.Node.NodeType.TEXT_ONLY) {
             skip();
 
             return true;
@@ -137,7 +137,7 @@ public class DialogRenderer {
 
             buttons.clear();
 
-            if (tree.nodes[tree.current].type == DialogTree.DialogTreeNode.NodeType.CHOICE) {
+            if (tree.nodes[tree.current].type == DialogTree.Node.NodeType.CHOICE) {
                 var screenW = Gdx.graphics.getWidth();
                 var width = 280.F;
                 var height = 40.F;
@@ -145,7 +145,7 @@ public class DialogRenderer {
                 var lastVisible = 0;
 
                 for (int i = 0; i < tree.nodes[tree.current].choices.length; ++i) {
-                    if (game.score >= tree.nodes[tree.current].choices[i].requiredScore) {
+                    if (game.score >= tree.nodes[tree.current].choices[i].requiredScore && (! tree.nodes[tree.current].choices[i].requiredBonus || game.bonusUnlocked)) {
                         visibleChoices += 1;
                         lastVisible = i;
                     }

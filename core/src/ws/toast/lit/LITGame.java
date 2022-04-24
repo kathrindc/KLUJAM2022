@@ -19,16 +19,21 @@ public class LITGame extends Game {
 	public ScreenFader fader;
 	public Jukebox jukebox;
 	public int score;
+	public int returnAt;
+	public int returnFromIntermission;
+	public boolean inIntermission = false;
+	public boolean bonusUnlocked = false;
 
 	@Override
 	public void create() {
 		var screen = new MainTitleScreen(this);
 		var adelpheFontFileHandle = Gdx.files.internal("fonts/adelphe/regular.fnt");
+		var xidusFontFileHandle = Gdx.files.internal("fonts/xidus/regular.fnt");
 
 		batch = new SpriteBatch();
 		shapes = new ShapeRenderer();
 		readableFont = new BitmapFont(adelpheFontFileHandle);
-		fantasyFont = new BitmapFont();
+		fantasyFont = new BitmapFont(xidusFontFileHandle);
 		fader = new ScreenFader(this);
 		jukebox = new Jukebox(this);
 
