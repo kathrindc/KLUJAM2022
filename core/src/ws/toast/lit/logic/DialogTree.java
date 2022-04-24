@@ -4,10 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.var;
 import ws.toast.lit.LITGame;
-import ws.toast.lit.scenes.ConversationScreen;
-import ws.toast.lit.scenes.CreditsScreen;
-import ws.toast.lit.scenes.DictionaryScreen;
-import ws.toast.lit.scenes.IntermissionScreen;
+import ws.toast.lit.scenes.*;
 
 public class DialogTree {
 
@@ -344,6 +341,24 @@ public class DialogTree {
             var screen = new ConversationScreen(game, game.returnFromIntermission);
 
             game.inIntermission = false;
+
+            game.fader.fade(screen);
+        }
+
+        if (current == NEXT_SCENE_CHANGE_JAIL_END) {
+            var screen = new EndingScreen(game, 0);
+
+            game.fader.fade(screen);
+        }
+
+        if (current == NEXT_SCENE_CHANGE_FINE_END) {
+            var screen = new EndingScreen(game, 1);
+
+            game.fader.fade(screen);
+        }
+
+        if (current == NEXT_SCENE_CHANGE_FREE_END) {
+            var screen = new EndingScreen(game, 2);
 
             game.fader.fade(screen);
         }
