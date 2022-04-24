@@ -1,7 +1,9 @@
 package ws.toast.lit.scenes;
 
 import com.badlogic.gdx.*;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import ws.toast.lit.LITGame;
 import ws.toast.lit.audio.Jukebox;
@@ -52,6 +54,7 @@ public class MainTitleScreen extends ScreenAdapter {
     private final LITGame game;
     private int cursor = 0;
     private float cursorSpread = 0, cursorY = 0;
+    private Texture logoTexture;
 
     public MainTitleScreen(LITGame game) {
         this.game = game;
@@ -94,14 +97,16 @@ public class MainTitleScreen extends ScreenAdapter {
     }
 
     private void drawTitle() {
-        game.readableFont.draw(
+        GlyphLayout layout = game.readableFont.draw(
                 game.batch,
                 "Lost in Translation",
-                0,
+                40.F,
                 Gdx.graphics.getHeight() * 0.8F,
                 Gdx.graphics.getWidth(),
                 1,
                 false);
+
+        game.batch.draw(logoTexture, 150.F, Gdx.graphics.getHeight() * 0.7F, 80.F, 80.F);
     }
 
     private void drawMenuEntries() {
@@ -134,6 +139,9 @@ public class MainTitleScreen extends ScreenAdapter {
     @Override
     public void show() {
         InputAdapter inputAdapter = new MainTitleScreenInputAdapter(this);
+        FileHandle logoFileHandle = Gdx.files.internal("sprites/logo.png");
+
+        logoTexture = new Texture(logoFileHandle);
 
         game.jukebox.load("quiet", "sounds/audionautix/quiet/Quiet.mp3");
         game.jukebox.play("quiet");
@@ -161,5 +169,6 @@ public class MainTitleScreen extends ScreenAdapter {
     @Override
     public void hide() {
         Gdx.input.setInputProcessor(null);
+        logoTexture.dispose();
     }
 }
