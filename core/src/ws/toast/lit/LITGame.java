@@ -20,6 +20,9 @@ public class LITGame extends Game {
 	public Jukebox jukebox;
 	public int score;
 	public int returnAt;
+	public int returnFromIntermission;
+	public boolean inIntermission = false;
+	public boolean bonusUnlocked = false;
 
 	@Override
 	public void create() {
