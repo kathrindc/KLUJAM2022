@@ -19,6 +19,7 @@ public class LITGame extends Game {
 	public ScreenFader fader;
 	public Jukebox jukebox;
 	public int score;
+	public int returnAt;
 
 	@Override
 	public void create() {
