@@ -2,12 +2,11 @@ package ws.toast.lit.audio;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
-import lombok.var;
+import com.badlogic.gdx.files.FileHandle;
 import ws.toast.lit.LITGame;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ArrayBlockingQueue;
 
 public class Jukebox {
 
@@ -24,8 +23,8 @@ public class Jukebox {
 
     public void load(String name, String path) {
         if (! tracks.containsKey(name)) {
-            var fileHandle = Gdx.files.internal(path);
-            var music = Gdx.audio.newMusic(fileHandle);
+            FileHandle fileHandle = Gdx.files.internal(path);
+            Music music = Gdx.audio.newMusic(fileHandle);
 
             music.setVolume(TARGET_VOLUME);
             music.setLooping(true);
@@ -64,7 +63,7 @@ public class Jukebox {
 
     public void fadeOut(float delta) {
         if (activeTrack != null) {
-            var volume = activeTrack.getVolume();
+            float volume = activeTrack.getVolume();
 
             if (volume > 0.01F) {
                 volume = Math.max(volume - delta, 0.F);
@@ -76,7 +75,7 @@ public class Jukebox {
 
     public void fadeIn(float delta) {
         if (activeTrack != null) {
-            var volume = activeTrack.getVolume();
+            float volume = activeTrack.getVolume();
 
             if (volume <= TARGET_VOLUME) {
                 activeTrack.setVolume(volume + delta);
@@ -85,7 +84,7 @@ public class Jukebox {
     }
 
     public void dispose() {
-        for (var entry : tracks.entrySet()) {
+        for (Map.Entry<String, Music> entry : tracks.entrySet()) {
             entry.getValue().dispose();
         }
 

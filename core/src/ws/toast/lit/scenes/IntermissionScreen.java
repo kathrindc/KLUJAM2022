@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
-import lombok.var;
 import ws.toast.lit.LITGame;
 import ws.toast.lit.graphics.DialogRenderer;
 import ws.toast.lit.logic.DialogTree;
@@ -42,7 +41,7 @@ public class IntermissionScreen extends ScreenAdapter {
     private final DialogRenderer dialog;
 
     public IntermissionScreen(LITGame game, int startFrom) {
-        var tree = new DialogTree(game, startFrom, true);
+        DialogTree tree = new DialogTree(game, startFrom, true);
 
         this.game = game;
         this.dialog = new DialogRenderer(game, tree);
@@ -50,7 +49,7 @@ public class IntermissionScreen extends ScreenAdapter {
 
     @Override
     public void show() {
-        var inputAdapter = new IntermissionScreenInputAdapter(this);
+        IntermissionScreenInputAdapter inputAdapter = new IntermissionScreenInputAdapter(this);
 
         Gdx.input.setInputProcessor(inputAdapter);
 
